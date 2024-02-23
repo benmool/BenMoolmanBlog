@@ -6,6 +6,7 @@ categories: [news, code, analysis]
 ---
 
 ![](image.jpg)
+### Introduction
 
 I am working with some NBA data containing every shot during the 2022-2023 NBA regular season. There are 217,220 observations in this data set, meaning that there were 217,220 shots taken by players in the NBA in this season.
 
@@ -24,6 +25,8 @@ I am going to use this data to create some visualizations to answer the followin
 
   * How were teams 3-pt shooting percentages this season from different areas?
   * How clutch were NBA teams this season? Let's look at shooting percentages across teams in the final 3 minutes of the fourth quarter.
+  
+### Visualizations
 
 Load in data:
 ```{r, warning=FALSE, message=FALSE}
@@ -109,6 +112,10 @@ ggplot(data = clutch_shots, aes(x = TEAM_NAME)) +
 ```
 The visualization above shows the proportion of shots made by each team in the final 3 minutes of the fourth quarter. The error bars represent the 95% confidence intervals for the proportion of shots made. The confidence intervals are quite wide for most teams, which is expected given the small sample sizes for each team in this situation.
 
+### Conclusion and Wrap-Up
+
 In conclusion, the visualizations above show that the corner 3-pt % is the most important 3-pt % for most teams, and that the confidence intervals for the proportion of shots made in the final 3 minutes of the fourth quarter are quite wide for most teams. If I had more time to work on this, I would look into creating heat maps for each team based on location of shots taken and whether they were made or missed. This would give a better understanding of where each team is most successful on the court. In DomSamangy's GitHub, he has a function that creates a map background and this would be a great thing to apply to visualizations.
+
+### Connections to Class Ideas
 
 In regards to my class Data Visualization, these visualizations are effective ways of communicating information. I chose not to use all NBA teams when looking at 3-pt % by location to avoid the visualization being too cluttered, and allowing the focus to be on the location of the shots. I chose to put the teams on the y-axis and order by the proportion of shots made in the final 3 minutes of the fourth quarter when looking at the "clutchness" of teams. This allows the focus to be on the proportion of shots made, and the error bars show the uncertainty in the proportion of shots made. I also chose to use a blue color for the points and a dark gray color for the error bars to make the visualization easier to read. I also chose to use a minimal theme to make the visualization easier to read. I think these visualizations are effective ways of communicating information.

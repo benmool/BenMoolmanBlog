@@ -1,0 +1,192 @@
+---
+title: "World Import and Export Data"
+author: "Ben Moolman"
+date: "2024-02-23"
+categories: [news, code, analysis]
+---
+
+```{r}
+#| output: false
+#| echo: false
+# library(palmerpenguins)
+# library(tidyverse)
+# cover_img <- ggplot(data = penguins, aes(x = bill_length_mm)) +
+#  geom_histogram()
+# ggsave(here::here("posts/test/img.png"), cover_img, width = 5, height = 4)
+# this saves an image in files, allowing a plot you create to be the preview image
+# on the blog
+```
+
+### Introduction
+
+I am working with some data from Kaggle on World Export & Import data. The data is from 1989 to 2021. There are 8,096 entries in the data set.
+
+The data can be found [here](https://www.kaggle.com/datasets/muhammadtalhaawan/world-export-and-import-dataset?resource=download).
+
+I am most interested in the variables:
+
+  * `Parter Name` - The country or trading partner that the data is from
+  * `Year` - The year of the data
+  * `Export (US$ Thousand)` -  total value of goods and products exported by the country in thousands of US dollars
+  * `Import (US$ Thousand)` -  total value of goods and products imported by the country in thousands of US dollars
+  
+It is important to note that all values of exports and imports are expressed in thousands of US dollars.
+
+I will be using this data to create some visualizations and to analyze the data. I am interested in exploring how exports and imports have changed over time and will look at countries with the highest exports and imports in 2021 and compare them over time. I will also create a world map that shows the percent change in exports from 2020 to 2021 for all countries in the data set.
+
+### Visualizations
+
+Load in data:
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(pander)
+theme_set(theme_minimal())
+library(here)
+world_imp_exp <- read_csv(here("data/world_import_export.csv"))
+world_imp_exp
+```
+
+Let's tidy up some of the column names and select our variables of interest.
+```{r}
+world_imp_exp <- world_imp_exp |>
+  rename(Partner_Name = `Partner Name`,
+         Export_Thousand = `Export (US$ Thousand)`,
+         Import_Thousand = `Import (US$ Thousand)`) |>
+  select(Partner_Name, Year, Export_Thousand, Import_Thousand)
+```
+
+Filter the data set to find the top 5 countries with the highest exports in 2023, and compare how they have changed over time.
+```{r}
+top_5_exp_2023 <- world_imp_exp |>
+  filter(Year == 2021) |>
+  arrange(desc(Export_Thousand)) |>
+  slice(5:7, 10, 12) |>
+  select(Partner_Name, Year, Export_Thousand) |>
+  mutate(Partner_Name = fct_reorder(Partner_Name, Export_Thousand))
+top_5_exp_2023
+# create vector of top 5 countries
+top_5_exp_2023_vec <- top_5_exp_2023$Partner_Name
+# filter data set to only include top 5 countries
+# also convert export values to billions
+top_5_exp_df <- world_imp_exp |>
+  filter(Partner_Name %in% top_5_exp_2023_vec) |>
+  mutate(Export_Billion = Export_Thousand / 1000000) |>
+  select(Partner_Name, Year, Export_Billion)
+```
+
+Create a plot to visualize the top 5 countries with the highest exports in 2021 have changed over time (since 1989).
+```{r}
+ggplot(data = top_5_exp_df, aes(x = Year, y = Export_Billion, color = Partner_Name)) +
+  geom_line() +
+  labs(title = "Top 5 Countries with the Highest Exports in 2023",
+       x = "Year",
+       y = "Export (US$ Billion)",
+       color = "Country") +
+  scale_color_viridis_d() +
+  theme_minimal()
+```
+The plot above shows the top 5 countries with the highest exports in 2021 and how they have changed over time. The United States has the highest exports in 2021, followed by China, Germany, The United Kingdom and Japan. The United States has had the highest exports over time. All countries have increased in exports from 1989 to 2021.
+
+Filter the data set to find the top 5 countries with the highest imports in 2023, and compare how they have changed over time.
+```{r}
+top_5_imp_2023 <- world_imp_exp |>
+  filter(Year == 2021) |>
+  arrange(desc(Import_Thousand)) |>
+  slice(4, 6, 7, 10, 11) |>
+  select(Partner_Name, Year, Import_Thousand) |>
+  mutate(Partner_Name = fct_reorder(Partner_Name, Import_Thousand))
+top_5_imp_2023
+# create vector of top 5 countries
+top_5_imp_2023_vec <- top_5_imp_2023$Partner_Name
+# filter data set to only include top 5 countries
+# also convert export values to billions
+top_5_imp_df <- world_imp_exp |>
+  filter(Partner_Name %in% top_5_imp_2023_vec) |>
+  mutate(Import_Billion = Import_Thousand / 1000000) |>
+  select(Partner_Name, Year, Import_Billion)
+```
+
+Create a plot to visualize the top 5 countries with the highest imports in 2021 have changed over time (since 1989).
+```{r}
+ggplot(data = top_5_imp_df, aes(x = Year, y = Import_Billion, color = Partner_Name)) +
+  geom_line() +
+  labs(title = "Top 5 Countries with the Highest Imports in 2021",
+       x = "Year",
+       y = "Import (US$ Billion)",
+       color = "Country") +
+  scale_color_viridis_d() +
+  theme_minimal()
+```
+The plot above shows the top 5 countries with the highest imports in 2021 and how they have changed over time. The China has the highest imports in 2021, followed by the United States and Germany which are very close together. All countries have seen an increase in imports from 1989 to 2021.
+
+Load in world data to create a world map. 
+```{r}
+# load in data for world map
+world_df <- map_data("world")
+# change USA in region to United States
+world_df <- world_df |>
+  mutate(region = ifelse(region == "USA", "United States", region))
+```
+
+Create a world map that shows the percent change in exports from 2020 to 2021 for all countries in the data set.
+```{r}
+#| warning: false
+# create df that has percent change in exports from 2020 to 2021 for all countries
+perc_change_exp <- world_imp_exp |>
+  filter(Year == 2020 | Year == 2021) |>
+  group_by(Partner_Name) |>
+  summarise(perc_change = ((last(Export_Thousand) - first(Export_Thousand)) /
+                             first(Export_Thousand)) * 100) |>
+  mutate(perc_change = round(perc_change, 2))
+
+# create plot df that combines world_df with perc_change_exp
+full_df_exp <- left_join(world_df, perc_change_exp, by = c("region" = "Partner_Name"))
+
+# create world map
+ggplot(data = full_df_exp, aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill = perc_change), color = "black") +
+  coord_map(projection = "mercator", xlim = c(-180, 180)) +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+  labs(title = "Percent Change in Exports from 2020 to 2021",
+       fill = "Percent Change") +
+  theme_minimal()
+```
+Countries in gray are not included in the data set. The map shows that most countries have seen a small increase in exports from 2020 to 2021. If I were to have more time, I would like to modify the percent change scale or limit the countries I am looking at to improve the ability to compare different countries, rather than just observing an overall increase across most countries.
+
+Create a world map that shows the percent change in imports from 2020 to 2021 for all countries in the data set.
+```{r}
+#| warning: false
+# create df that has percent change in imports from 2020 to 2021 for all countries
+perc_change_imp <- world_imp_exp |>
+  filter(Year == 2020 | Year == 2021) |>
+  group_by(Partner_Name) |>
+  summarise(perc_change = ((last(Import_Thousand) - first(Import_Thousand)) /
+                             first(Import_Thousand)) * 100) |>
+  mutate(perc_change = round(perc_change, 2))
+
+# create plot df that combines world_df with perc_change_imp
+full_df_imp <- left_join(world_df, perc_change_imp, by = c("region" = "Partner_Name"))
+
+# create world map
+ggplot(data = full_df_imp, aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill = perc_change), color = "black") +
+  coord_map(projection = "mercator", xlim = c(-180, 180)) +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+  labs(title = "Percent Change in Imports from 2020 to 2021",
+       fill = "Percent Change") +
+  theme_minimal()
+```
+Countries in gray are not included in the data set. The map shows that most countries have seen a slight increase in imports from 2020 to 2021. If I were to have more time, I would like to modify the percent change scale or limit the countries I am looking at to improve the ability to compare different countries, rather than just observing an overall increase across most countries, in the same fashion as the map above.
+
+### Conclusion and Wrap-Up
+
+In conclusion, the data set I used to analyze the trade of goods between countries from 1989 to 2021 was very interesting. I was able to find the top 5 countries with the highest exports and imports in 2021 and compare how they have changed over time. I was also able to create world maps that show the percent change in exports and imports from 2020 to 2021 for all countries in the data set. 
+
+If I were to have more time, I would like to modify the percent change scale or limit the countries I am looking at to improve the ability to compare different countries, rather than just observing an overall increase across most countries. I would also like to create world maps that shows the percent changes in exports and imports from 1989 to 2021 for all countries in the data set. This would allow me to see how the trade of goods between countries has changed over time.
+
+
+### Connections to Class Ideas
+
+This project connects to many of the ideas we have learned in class. I used the mapping features we have learned in class to display the data in a way that is easy to understand. I also used the dplyr package to manipulate the data in a way that made it easier to analyze. I think these visualizations are effective ways of communicating information, but I know that my world maps can be improved upon.
