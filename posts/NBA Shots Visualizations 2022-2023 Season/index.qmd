@@ -6,6 +6,7 @@ categories: [news, code, analysis]
 ---
 
 ![](image.jpg)
+
 ### Introduction
 
 I am working with some NBA data containing every shot during the 2022-2023 NBA regular season. There are 217,220 observations in this data set, meaning that there were 217,220 shots taken by players in the NBA in this season.

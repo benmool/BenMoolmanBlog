@@ -182,8 +182,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
+<section id="introduction" class="level3">
+<h3 class="anchored" data-anchor-id="introduction">Introduction</h3>
 <p>I am working with some data from Kaggle on World Export &amp; Import data. The data is from 1989 to 2021. There are 8,096 entries in the data set.</p>
-<p>The data can be found at this <a href="https://www.kaggle.com/datasets/muhammadtalhaawan/world-export-and-import-dataset?resource=download">link</a>.</p>
+<p>The data can be found <a href="https://www.kaggle.com/datasets/muhammadtalhaawan/world-export-and-import-dataset?resource=download">here</a>.</p>
 <p>I am most interested in the variables:</p>
 <ul>
 <li><code>Parter Name</code> - The country or trading partner that the data is from</li>
@@ -193,6 +195,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>It is important to note that all values of exports and imports are expressed in thousands of US dollars.</p>
 <p>I will be using this data to create some visualizations and to analyze the data. I am interested in exploring how exports and imports have changed over time and will look at countries with the highest exports and imports in 2021 and compare them over time. I will also create a world map that shows the percent change in exports from 2020 to 2021 for all countries in the data set.</p>
+</section>
+<section id="visualizations" class="level3">
+<h3 class="anchored" data-anchor-id="visualizations">Visualizations</h3>
 <p>Load in data:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -262,7 +267,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Export_Billion =</span> Export_Thousand <span class="sc">/</span> <span class="dv">1000000</span>) <span class="sc">|&gt;</span></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Partner_Name, Year, Export_Billion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Create a plot to visualize the top 5 countries with the highest exports in 2021 have changed over time.</p>
+<p>Create a plot to visualize the top 5 countries with the highest exports in 2021 have changed over time (since 1989).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> top_5_exp_df, <span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> Export_Billion, <span class="at">color =</span> Partner_Name)) <span class="sc">+</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
@@ -276,6 +281,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>The plot above shows the top 5 countries with the highest exports in 2021 and how they have changed over time. The United States has the highest exports in 2021, followed by China, Germany, The United Kingdom and Japan. The United States has had the highest exports over time. All countries have increased in exports from 1989 to 2021.</p>
 <p>Filter the data set to find the top 5 countries with the highest imports in 2023, and compare how they have changed over time.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>top_5_imp_2023 <span class="ot">&lt;-</span> world_imp_exp <span class="sc">|&gt;</span></span>
@@ -304,11 +310,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Import_Billion =</span> Import_Thousand <span class="sc">/</span> <span class="dv">1000000</span>) <span class="sc">|&gt;</span></span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Partner_Name, Year, Import_Billion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Create a plot to visualize the top 5 countries with the highest imports in 2021 have changed over time.</p>
+<p>Create a plot to visualize the top 5 countries with the highest imports in 2021 have changed over time (since 1989).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> top_5_imp_df, <span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> Import_Billion, <span class="at">color =</span> Partner_Name)) <span class="sc">+</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Top 5 Countries with the Highest Imports in 2023"</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Top 5 Countries with the Highest Imports in 2021"</span>,</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Year"</span>,</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Import (US$ Billion)"</span>,</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Country"</span>) <span class="sc">+</span></span>
@@ -318,6 +324,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>The plot above shows the top 5 countries with the highest imports in 2021 and how they have changed over time. The China has the highest imports in 2021, followed by the United States and Germany which are very close together. All countries have seen an increase in imports from 1989 to 2021.</p>
 <p>Load in world data to create a world map.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load in data for world map</span></span>
@@ -337,11 +344,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">perc_change =</span> <span class="fu">round</span>(perc_change, <span class="dv">2</span>))</span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># create plot df that combines world_df with perc_change_exp</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>full_df <span class="ot">&lt;-</span> <span class="fu">left_join</span>(world_df, perc_change_exp, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"region"</span> <span class="ot">=</span> <span class="st">"Partner_Name"</span>))</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>full_df_exp <span class="ot">&lt;-</span> <span class="fu">left_join</span>(world_df, perc_change_exp, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"region"</span> <span class="ot">=</span> <span class="st">"Partner_Name"</span>))</span>
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co"># create world map</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> full_df, <span class="fu">aes</span>(<span class="at">x =</span> long, <span class="at">y =</span> lat, <span class="at">group =</span> group)) <span class="sc">+</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="fu">aes</span>(<span class="at">fill =</span> perc_change), <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">aplha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> full_df_exp, <span class="fu">aes</span>(<span class="at">x =</span> long, <span class="at">y =</span> lat, <span class="at">group =</span> group)) <span class="sc">+</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="fu">aes</span>(<span class="at">fill =</span> perc_change), <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
 <span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_map</span>(<span class="at">projection =</span> <span class="st">"mercator"</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">180</span>, <span class="dv">180</span>)) <span class="sc">+</span></span>
 <span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"blue"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"red"</span>, <span class="at">midpoint =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
 <span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Percent Change in Exports from 2020 to 2021"</span>,</span>
@@ -351,6 +358,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Countries in gray are not included in the data set. The map shows that most countries have seen a small increase in exports from 2020 to 2021. If I were to have more time, I would like to modify the percent change scale or limit the countries I am looking at to improve the ability to compare different countries, rather than just observing an overall increase across most countries.</p>
 <p>Create a world map that shows the percent change in imports from 2020 to 2021 for all countries in the data set.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create df that has percent change in imports from 2020 to 2021 for all countries</span></span>
@@ -366,7 +374,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co"># create world map</span></span>
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> full_df_imp, <span class="fu">aes</span>(<span class="at">x =</span> long, <span class="at">y =</span> lat, <span class="at">group =</span> group)) <span class="sc">+</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="fu">aes</span>(<span class="at">fill =</span> perc_change), <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="fu">aes</span>(<span class="at">fill =</span> perc_change), <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
 <span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_map</span>(<span class="at">projection =</span> <span class="st">"mercator"</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">180</span>, <span class="dv">180</span>)) <span class="sc">+</span></span>
 <span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"blue"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"red"</span>, <span class="at">midpoint =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
 <span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Percent Change in Imports from 2020 to 2021"</span>,</span>
@@ -376,8 +384,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Countries in gray are not included in the data set. The map shows that most countries have seen a slight increase in imports from 2020 to 2021. If I were to have more time, I would like to modify the percent change scale or limit the countries I am looking at to improve the ability to compare different countries, rather than just observing an overall increase across most countries, in the same fashion as the map above.</p>
+</section>
+<section id="conclusion-and-wrap-up" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion-and-wrap-up">Conclusion and Wrap-Up</h3>
+<p>In conclusion, the data set I used to analyze the trade of goods between countries from 1989 to 2021 was very interesting. I was able to find the top 5 countries with the highest exports and imports in 2021 and compare how they have changed over time. I was also able to create world maps that show the percent change in exports and imports from 2020 to 2021 for all countries in the data set.</p>
+<p>If I were to have more time, I would like to modify the percent change scale or limit the countries I am looking at to improve the ability to compare different countries, rather than just observing an overall increase across most countries. I would also like to create world maps that shows the percent changes in exports and imports from 1989 to 2021 for all countries in the data set. This would allow me to see how the trade of goods between countries has changed over time.</p>
+</section>
+<section id="connections-to-class-ideas" class="level3">
+<h3 class="anchored" data-anchor-id="connections-to-class-ideas">Connections to Class Ideas</h3>
+<p>This project connects to many of the ideas we have learned in class. I used the mapping features we have learned in class to display the data in a way that is easy to understand. I also used the dplyr package to manipulate the data in a way that made it easier to analyze. I think these visualizations are effective ways of communicating information, but I know that my world maps can be improved upon.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
