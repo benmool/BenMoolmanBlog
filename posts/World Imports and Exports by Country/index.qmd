@@ -5,6 +5,8 @@ date: "2024-02-23"
 categories: [news, code, analysis]
 ---
 
+![](image.jpg)
+
 ```{r}
 #| output: false
 #| echo: false

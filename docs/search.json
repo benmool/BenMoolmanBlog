@@ -42,13 +42,6 @@
     "text": "Connection to Class\nIn regards to my class Data Visualization, these visualizations are effective ways of communicating information. I chose not to use all the teams when looking at the average number of shots for a forward or midfielder per game in across teams to avoid the visualization being too cluttered, and allowing the focus to be on the teams. I chose to use a red color for the points and a dark red color for the error bars to make the visualization easier to read. I also chose to use a minimal theme to make the visualization easier to read. I think these visualizations are effective ways of communicating information."
   },
   {
-    "objectID": "posts/welcome/index.html",
-    "href": "posts/welcome/index.html",
-    "title": "Welcome To My Blog",
-    "section": "",
-    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
-  },
-  {
     "objectID": "posts/World Imports and Exports by Country/index.html",
     "href": "posts/World Imports and Exports by Country/index.html",
     "title": "World Import and Export Data",
@@ -67,6 +60,6 @@
     "href": "index.html",
     "title": "BenMoolmanBlog",
     "section": "",
-    "text": "Pro Soccer Analysis 2022-2023 Season\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nMar 8, 2024\n\n\nBen Moolman and Matthew Maslow\n\n\n\n\n\n\n  \n\n\n\n\nWorld Import and Export Data\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nFeb 23, 2024\n\n\nBen Moolman\n\n\n\n\n\n\n  \n\n\n\n\nNBA Shots Visualizations 2022-2023 Season\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nFeb 9, 2024\n\n\nBen Moolman\n\n\n\n\n\n\n  \n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nJan 29, 2024\n\n\nBen Moolman\n\n\n\n\n\n\nNo matching items"
+    "text": "Pro Soccer Analysis 2022-2023 Season\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nMar 8, 2024\n\n\nBen Moolman and Matthew Maslow\n\n\n\n\n\n\n  \n\n\n\n\nWorld Import and Export Data\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nFeb 23, 2024\n\n\nBen Moolman\n\n\n\n\n\n\n  \n\n\n\n\nNBA Shots Visualizations 2022-2023 Season\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nFeb 9, 2024\n\n\nBen Moolman\n\n\n\n\n\n\nNo matching items"
   }
 ]
