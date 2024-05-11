@@ -36,6 +36,7 @@ library(dplyr)
 library(ggplot2)
 theme_set(theme_minimal())
 library(here)
+library(plotly)
 nba_22_23 <- read_csv(here("data/NBA_2023_Shots.csv"))
 ```
 
@@ -59,7 +60,9 @@ Let's look at the top 4 teams from each conference at the end of the 2022-2023 s
 nba_3pt_shots <- nba_22_23 |>
   filter(SHOT_TYPE == "3PT Field Goal") |>
   group_by(TEAM_NAME, ZONE_NAME) |>
-  summarise(shot_perc = mean(SHOT_MADE), .groups = "drop_last") |>
+  summarise(shot_perc = mean(SHOT_MADE),
+            total_shots = n(),
+            .groups = "drop_last") |>
   filter(TEAM_NAME == "Boston Celtics" | 
            TEAM_NAME == "Milwaukee Bucks" | 
            TEAM_NAME == "Philadelphia 76ers" | 
@@ -69,7 +72,9 @@ nba_3pt_shots <- nba_22_23 |>
            TEAM_NAME == "Sacramento Kings" | 
            TEAM_NAME == "Phoenix Suns")
 
-ggplot(data = nba_3pt_shots, aes(x = TEAM_NAME, y = shot_perc)) +
+plot <- ggplot(data = nba_3pt_shots, aes(x = TEAM_NAME, y = shot_perc, 
+                                         label = total_shots,
+                                         label2 = shot_perc)) +
   geom_col(position = "dodge", aes(fill = ZONE_NAME)) +
   coord_flip() +
   scale_fill_viridis_d() +
@@ -80,8 +85,17 @@ ggplot(data = nba_3pt_shots, aes(x = TEAM_NAME, y = shot_perc)) +
        fill = "Court Position",
        caption = "Data from NBA 2022-2023 Season") +
   theme_minimal()
+
+ggplotly(plot, tooltip = c("label", "label2"))
+
+
 ```
 `Back Court` 3-pt % is not very important to all basketball teams as it is not a common shot. The most important 3-pt % is the corner 3-pt %, as it is the shortest 3-pt shot. This can be seen in the visualisation above, as the corner 3-pt % is higher for most teams, whether it be the `Left Side` or the `Right Side`.
+
+
+
+
+
 
 Let's look at shooting percentages across teams in the final 3 minutes of the fourth quarter.
 ```{r}

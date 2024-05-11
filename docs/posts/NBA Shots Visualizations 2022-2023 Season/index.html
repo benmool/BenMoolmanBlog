@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -24,7 +24,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -81,7 +81,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,11 +96,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
+<script src="../../site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="../../site_libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="../../site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="../../site_libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="../../site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="../../site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="../../site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="../../site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -103,10 +118,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">BenMoolmanBlog</span>
     </a>
@@ -118,23 +133,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com" rel="" target=""><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com"> <i class="bi bi-twitter" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -182,6 +197,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
+
 <p><img src="image.jpg" class="img-fluid"></p>
 <section id="introduction" class="level3">
 <h3 class="anchored" data-anchor-id="introduction">Introduction</h3>
@@ -211,7 +227,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_minimal</span>())</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>nba_22_23 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"data/NBA_2023_Shots.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>nba_22_23 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"data/NBA_2023_Shots.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Look at the data:</p>
 <div class="cell">
@@ -248,29 +265,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>nba_3pt_shots <span class="ot">&lt;-</span> nba_22_23 <span class="sc">|&gt;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(SHOT_TYPE <span class="sc">==</span> <span class="st">"3PT Field Goal"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(TEAM_NAME, ZONE_NAME) <span class="sc">|&gt;</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">shot_perc =</span> <span class="fu">mean</span>(SHOT_MADE), <span class="at">.groups =</span> <span class="st">"drop_last"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(TEAM_NAME <span class="sc">==</span> <span class="st">"Boston Celtics"</span> <span class="sc">|</span> </span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>           TEAM_NAME <span class="sc">==</span> <span class="st">"Milwaukee Bucks"</span> <span class="sc">|</span> </span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>           TEAM_NAME <span class="sc">==</span> <span class="st">"Philadelphia 76ers"</span> <span class="sc">|</span> </span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>           TEAM_NAME <span class="sc">==</span> <span class="st">"Cleveland Cavaliers"</span> <span class="sc">|</span> </span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>           TEAM_NAME <span class="sc">==</span> <span class="st">"Denver Nuggets"</span> <span class="sc">|</span> </span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>           TEAM_NAME <span class="sc">==</span> <span class="st">"Memphis Grizzlies"</span> <span class="sc">|</span> </span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>           TEAM_NAME <span class="sc">==</span> <span class="st">"Sacramento Kings"</span> <span class="sc">|</span> </span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>           TEAM_NAME <span class="sc">==</span> <span class="st">"Phoenix Suns"</span>)</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> nba_3pt_shots, <span class="fu">aes</span>(<span class="at">x =</span> TEAM_NAME, <span class="at">y =</span> shot_perc)) <span class="sc">+</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>, <span class="fu">aes</span>(<span class="at">fill =</span> ZONE_NAME)) <span class="sc">+</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>() <span class="sc">+</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"3-Point Shooting Percentages by Location"</span>,</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Top 4 Conference Teams from 2022-2023 Season"</span>,</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Zone"</span>,</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Proportion of Shots Made"</span>,</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Court Position"</span>,</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Data from NBA 2022-2023 Season"</span>) <span class="sc">+</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">shot_perc =</span> <span class="fu">mean</span>(SHOT_MADE),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">total_shots =</span> <span class="fu">n</span>(),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop_last"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(TEAM_NAME <span class="sc">==</span> <span class="st">"Boston Celtics"</span> <span class="sc">|</span> </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>           TEAM_NAME <span class="sc">==</span> <span class="st">"Milwaukee Bucks"</span> <span class="sc">|</span> </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>           TEAM_NAME <span class="sc">==</span> <span class="st">"Philadelphia 76ers"</span> <span class="sc">|</span> </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>           TEAM_NAME <span class="sc">==</span> <span class="st">"Cleveland Cavaliers"</span> <span class="sc">|</span> </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>           TEAM_NAME <span class="sc">==</span> <span class="st">"Denver Nuggets"</span> <span class="sc">|</span> </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>           TEAM_NAME <span class="sc">==</span> <span class="st">"Memphis Grizzlies"</span> <span class="sc">|</span> </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>           TEAM_NAME <span class="sc">==</span> <span class="st">"Sacramento Kings"</span> <span class="sc">|</span> </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>           TEAM_NAME <span class="sc">==</span> <span class="st">"Phoenix Suns"</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> nba_3pt_shots, <span class="fu">aes</span>(<span class="at">x =</span> TEAM_NAME, <span class="at">y =</span> shot_perc, </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">label =</span> total_shots,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">label2 =</span> shot_perc)) <span class="sc">+</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>, <span class="fu">aes</span>(<span class="at">fill =</span> ZONE_NAME)) <span class="sc">+</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>() <span class="sc">+</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"3-Point Shooting Percentages by Location"</span>,</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Top 4 Conference Teams from 2022-2023 Season"</span>,</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Zone"</span>,</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Proportion of Shots Made"</span>,</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Court Position"</span>,</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Data from NBA 2022-2023 Season"</span>) <span class="sc">+</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(plot, <span class="at">tooltip =</span> <span class="fu">c</span>(<span class="st">"label"</span>, <span class="st">"label2"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-0c915acafb527766e3b5" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-0c915acafb527766e3b5">{"x":{"data":[{"orientation":"h","width":[0.14999999999999991,0.14999999999999991,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.15000000000000036],"base":[0,0,0,0,0,0,0,0],"x":[0,0,0.10344827586206896,0.11764705882352941,0.0625,0.066666666666666666,0,0],"y":[0.625,1.625,2.625,3.625,4.625,5.625,6.625,7.625],"text":["total_shots:   13<br />shot_perc: 0.00000000","total_shots:   12<br />shot_perc: 0.00000000","total_shots:   29<br />shot_perc: 0.10344828","total_shots:   17<br />shot_perc: 0.11764706","total_shots:   16<br />shot_perc: 0.06250000","total_shots:   15<br />shot_perc: 0.06666667","total_shots:   14<br />shot_perc: 0.00000000","total_shots:   10<br />shot_perc: 0.00000000"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(68,1,84,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"Back Court","legendgroup":"Back Court","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"h","width":[0.14999999999999991,0.14999999999999991,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.15000000000000036],"base":[0,0,0,0,0,0,0,0],"x":[0.34405144694533762,0.3590308370044053,0.36616702355460384,0.35766423357664234,0.3547351524879615,0.37909836065573771,0.33552631578947367,0.35448916408668729],"y":[0.77500000000000002,1.7749999999999999,2.7749999999999999,3.7749999999999999,4.7750000000000004,5.7750000000000004,6.7750000000000004,7.7750000000000004],"text":["total_shots:  622<br />shot_perc: 0.34405145","total_shots:  454<br />shot_perc: 0.35903084","total_shots:  467<br />shot_perc: 0.36616702","total_shots:  548<br />shot_perc: 0.35766423","total_shots:  623<br />shot_perc: 0.35473515","total_shots:  488<br />shot_perc: 0.37909836","total_shots:  456<br />shot_perc: 0.33552632","total_shots:  646<br />shot_perc: 0.35448916"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(65,68,135,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"Center","legendgroup":"Center","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"h","width":[0.14999999999999991,0.14999999999999991,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.15000000000000036],"base":[0,0,0,0,0,0,0,0],"x":[0.39855072463768115,0.36277602523659308,0.38172043010752688,0.38672768878718533,0.36734693877551022,0.376,0.44874715261958997,0.40831295843520782],"y":[0.92500000000000004,1.925,2.9249999999999998,3.9249999999999998,4.9249999999999998,5.9249999999999998,6.9249999999999998,7.9249999999999998],"text":["total_shots:  414<br />shot_perc: 0.39855072","total_shots:  317<br />shot_perc: 0.36277603","total_shots:  372<br />shot_perc: 0.38172043","total_shots:  437<br />shot_perc: 0.38672769","total_shots:  392<br />shot_perc: 0.36734694","total_shots:  375<br />shot_perc: 0.37600000","total_shots:  439<br />shot_perc: 0.44874715","total_shots:  409<br />shot_perc: 0.40831296"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(42,120,142,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"Left Side","legendgroup":"Left Side","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"h","width":[0.14999999999999991,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.14999999999999947],"base":[0,0,0,0,0,0,0,0],"x":[0.37476635514018691,0.39103362391033625,0.37768817204301075,0.3362944162436548,0.38952879581151834,0.38173652694610777,0.37976539589442815,0.36330935251798563],"y":[1.075,2.0750000000000002,3.0750000000000002,4.0750000000000002,5.0750000000000002,6.0750000000000002,7.0750000000000002,8.0749999999999993],"text":["total_shots: 1070<br />shot_perc: 0.37476636","total_shots:  803<br />shot_perc: 0.39103362","total_shots:  744<br />shot_perc: 0.37768817","total_shots:  788<br />shot_perc: 0.33629442","total_shots:  955<br />shot_perc: 0.38952880","total_shots:  668<br />shot_perc: 0.38173653","total_shots:  682<br />shot_perc: 0.37976540","total_shots:  834<br />shot_perc: 0.36330935"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(34,168,132,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"Left Side Center","legendgroup":"Left Side Center","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"h","width":[0.14999999999999991,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.14999999999999858],"base":[0,0,0,0,0,0,0,0],"x":[0.41320293398533009,0.37209302325581395,0.43771043771043772,0.34693877551020408,0.37965260545905705,0.42318059299191374,0.38504155124653738,0.38390092879256965],"y":[1.2250000000000001,2.2250000000000001,3.2250000000000001,4.2249999999999996,5.2249999999999996,6.2249999999999996,7.2249999999999996,8.2249999999999996],"text":["total_shots:  409<br />shot_perc: 0.41320293","total_shots:  344<br />shot_perc: 0.37209302","total_shots:  297<br />shot_perc: 0.43771044","total_shots:  294<br />shot_perc: 0.34693878","total_shots:  403<br />shot_perc: 0.37965261","total_shots:  371<br />shot_perc: 0.42318059","total_shots:  361<br />shot_perc: 0.38504155","total_shots:  323<br />shot_perc: 0.38390093"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(122,209,81,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"Right Side","legendgroup":"Right Side","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"h","width":[0.14999999999999991,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.15000000000000036,0.14999999999999858],"base":[0,0,0,0,0,0,0,0],"x":[0.3796680497925311,0.34901365705614568,0.37230769230769228,0.34716459197786997,0.35550708833151579,0.39050131926121373,0.35041551246537395,0.36396181384248211],"y":[1.375,2.375,3.375,4.375,5.375,6.375,7.375,8.375],"text":["total_shots:  964<br />shot_perc: 0.37966805","total_shots:  659<br />shot_perc: 0.34901366","total_shots:  650<br />shot_perc: 0.37230769","total_shots:  723<br />shot_perc: 0.34716459","total_shots:  917<br />shot_perc: 0.35550709","total_shots:  758<br />shot_perc: 0.39050132","total_shots:  722<br />shot_perc: 0.35041551","total_shots:  838<br />shot_perc: 0.36396181"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(253,231,37,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"Right Side Center","legendgroup":"Right Side Center","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.762557077625573,"r":7.3059360730593621,"b":40.182648401826498,"l":136.62100456621008},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"3-Point Shooting Percentages by Location","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.022437357630979499,0.47118451025056945],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4"],"tickvals":[0,0.10000000000000001,0.20000000000000001,0.30000000000000004,0.40000000000000002],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Proportion of Shots Made","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,8.5999999999999996],"tickmode":"array","ticktext":["Boston Celtics","Cleveland Cavaliers","Denver Nuggets","Memphis Grizzlies","Milwaukee Bucks","Philadelphia 76ers","Phoenix Suns","Sacramento Kings"],"tickvals":[1,2,3,4,5,6,7,8],"categoryorder":"array","categoryarray":["Boston Celtics","Cleveland Cavaliers","Denver Nuggets","Memphis Grizzlies","Milwaukee Bucks","Philadelphia 76ers","Phoenix Suns","Sacramento Kings"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Zone","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Court Position","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"9def9bd75d7":{"x":{},"y":{},"label":{},"label2":{},"fill":{},"type":"bar"}},"cur_data":"9def9bd75d7","visdat":{"9def9bd75d7":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p><code>Back Court</code> 3-pt % is not very important to all basketball teams as it is not a common shot. The most important 3-pt % is the corner 3-pt %, as it is the shortest 3-pt shot. This can be seen in the visualisation above, as the corner 3-pt % is higher for most teams, whether it be the <code>Left Side</code> or the <code>Right Side</code>.</p>
@@ -302,7 +326,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Data from NBA 2022-2023 Regular Season"</span>) <span class="sc">+</span></span>
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The visualization above shows the proportion of shots made by each team in the final 3 minutes of the fourth quarter. The error bars represent the 95% confidence intervals for the proportion of shots made. The confidence intervals are quite wide for most teams, which is expected given the small sample sizes for each team in this situation.</p>
@@ -398,10 +426,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -411,8 +456,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -424,7 +478,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -468,6 +645,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -493,6 +671,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -553,6 +757,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
